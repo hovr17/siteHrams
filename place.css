@@ -1178,9 +1178,4 @@ padding-top: 2vh;
 }
 
 
-@media (max-width: 1080px) {
-  body.is-mobile #frame {
-    max-height: none !important;
-    min-height: auto !important;
-  }
-}
+
