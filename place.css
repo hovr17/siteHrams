@@ -1177,32 +1177,13 @@ padding-top: 2vh;
     .yandex-browser .mode-intro .photo-wrapper { transform: translateY(40px) !important; }
 }
 
-/* ============================================
-   MOBILE VIEWPORT FIX - ДОЛЖНО БЫТЬ В КОНЦЕ
-   ============================================ */
-@media (max-width: 1080px) {
-  body.is-mobile #frame,
-  body.is-mobile .container {
-    height: 100% !important; /* JS будет управлять через inline !important */
-    max-height: none !important;
-    min-height: auto !important;
-    aspect-ratio: auto !important;
-  }
-  
-  /* Контейнер должен заполнять frame, но не выходить за него */
-  body.is-mobile #frame {
-    position: relative !important;
-    overflow: hidden !important;
-  }
-  
-  /* Видео должно полностью заполнять frame */
-  body.is-mobile .temple-video,
-  body.is-mobile .video-background {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-  }
+
+
+@media (max-width: 1080px) and (orientation: portrait) {
+    
+    /* Все мобильные браузеры: высота = видимая область (JS управляет) */
+    body.is-mobile .container {
+        height: 100svh; /* Fallback до загрузки JS */
+        padding-bottom: 0; /* Убираем safe-area, т.к. JS точно вычисляет видимую область */
+    }
 }
