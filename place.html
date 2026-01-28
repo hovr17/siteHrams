@@ -8,37 +8,6 @@
   <link rel="stylesheet" href="common.css">
   <link rel="stylesheet" href="place.css">
 
-  <script>
-    (function() {
-        // Определяем мобильные устройства (так же как в categories)
-        const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
-                         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (!isMobile) return; // На ПК не применяем
-        
-        document.body.classList.add('is-mobile');
-        
-        const frame = document.getElementById('frame');
-        const vv = window.visualViewport;
-        
-        if (!vv || !frame) return;
-        
-        function updateViewport() {
-            // Устанавливаем высоту контейнера строго по видимой области (без панелей инструментов)
-            frame.style.height = vv.height + 'px';
-            frame.style.maxHeight = 'none'; // Сбрасываем max-height чтобы не мешал
-        }
-        
-        vv.addEventListener('resize', updateViewport);
-        window.addEventListener('orientationchange', () => {
-            setTimeout(updateViewport, 100);
-        });
-        
-        updateViewport();
-        window.addEventListener('load', updateViewport);
-    })();
-</script>
-
   <base target="_self">
 </head>
 <body>
@@ -96,7 +65,39 @@
   <script src="js/core/pages_manager.js"></script>
   <script src="js/core/spa_router.js"></script>
   <script src="js/core/place_menu.js"></script>
+
+    <script>
+    (function() {
+        // Определяем мобильные устройства (так же как в categories)
+        const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
+                         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isMobile) return; // На ПК не применяем
+        
+        document.body.classList.add('is-mobile');
+        
+        const frame = document.getElementById('frame');
+        const vv = window.visualViewport;
+        
+        if (!vv || !frame) return;
+        
+        function updateViewport() {
+            // Устанавливаем высоту контейнера строго по видимой области (без панелей инструментов)
+            frame.style.height = vv.height + 'px';
+            frame.style.maxHeight = 'none'; // Сбрасываем max-height чтобы не мешал
+        }
+        
+        vv.addEventListener('resize', updateViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateViewport, 100);
+        });
+        
+        updateViewport();
+        window.addEventListener('load', updateViewport);
+    })();
+</script>
   
 </body>
 </html>
+
 
