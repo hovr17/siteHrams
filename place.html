@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,48 +10,6 @@
   <base target="_self">
 </head>
 <body>
-  <script>
-(function() {
-  const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
-                   /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  
-  if (!isMobile) return;
-  
-  document.body.classList.add('is-mobile');
-  
-  function updateVH() {
-    const vv = window.visualViewport;
-    const height = vv ? vv.height : window.innerHeight;
-    
-    // Устанавливаем --vh как 1/100 от видимой высоты
-    document.documentElement.style.setProperty('--vh', `${height * 0.01}px`);
-    
-    // Дополнительно фиксируем высоту frame напрямую
-    const frame = document.getElementById('frame');
-    if (frame) {
-      frame.style.setProperty('height', `${height}px`, 'important');
-    }
-  }
-  
-  // Обновляем при любом изменении viewport
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener('resize', updateVH);
-    window.visualViewport.addEventListener('scroll', updateVH);
-  }
-  
-  window.addEventListener('resize', updateVH);
-  window.addEventListener('orientationchange', () => {
-    setTimeout(updateVH, 100);
-    setTimeout(updateVH, 300); // двойной вызов для надежности
-  });
-  
-  // Немедленно и после загрузки
-  updateVH();
-  window.addEventListener('load', updateVH);
-  setTimeout(updateVH, 100);
-  setTimeout(updateVH, 500);
-})();
-</script>
   <!-- Стрелки навигации -->
   <div class="temple-nav-arrows" id="templeNavArrows">
     <button class="temple-nav-arrow temple-prev-arrow" id="templePrevArrow">
@@ -101,12 +58,41 @@
     <div class="bottom-shadow"></div>
   </div>
 
-  <!-- ПОРЯДОК КРИТИЧЕН! -->
+  <!-- Скрипты функционала -->
   <script src="js/categories/religious_places.js"></script>
   <script src="js/core/categories_config.js"></script>
   <script src="js/core/pages_manager.js"></script>
   <script src="js/core/spa_router.js"></script>
   <script src="js/core/place_menu.js"></script>
-  
+
+  <!-- ИНТЕГРИРОВАННЫЙ СКРИПТ VISUAL VIEWPORT -->
+  <script>
+      (function() {
+          const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
+                           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          
+          if (!isMobile) return;
+          
+          document.body.classList.add('is-mobile');
+          
+          const container = document.querySelector('.container');
+          const vv = window.visualViewport;
+          
+          if (!vv || !container) return;
+          
+          function updateViewport() {
+              // Обрезаем контейнер ровно по границе видимой области (без панелей инструментов)
+              container.style.height = vv.height + 'px';
+          }
+          
+          vv.addEventListener('resize', updateViewport);
+          window.addEventListener('orientationchange', () => {
+              setTimeout(updateViewport, 100);
+          });
+          
+          updateViewport();
+          window.addEventListener('load', updateViewport);
+      })();
+  </script>
 </body>
 </html>
