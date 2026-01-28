@@ -37,7 +37,7 @@
     object-fit: contain;
 }
 
-/* Заголовок */
+
 .title {
     font-family: 'Zametka', sans-serif;
     font-size: clamp(28px, 9vmin, 70px);
@@ -212,3 +212,4 @@
         padding-bottom: 0; /* Убираем safe-area, т.к. JS точно вычисляет видимую область */
     }
 }
+
