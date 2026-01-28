@@ -780,26 +780,13 @@
 
   /* === ИСПРАВЛЕННЫЕ КНОПКИ ФОТО (НЕ СЖИМАЮТСЯ, ВЛЕЗАЮТ В КОНТЕЙНЕР) === */
   .photo-card {
-   /* width: 100%;
-    height: 24vh !important;
-    max-height: 24vh !important;
-    aspect-ratio: 166 / 225 !important;
-    background-size: contain !important;
-    background-position: center !important;
-    border-radius: 3.6vh;
-    border-width: 0.3vh;
-    background-color: rgba(0,0,0,0.3); */
-
       width: 100% ;
-
-height: auto ;
-    aspect-ratio: 166 / 225 ;
-
-    background-size: cover ;
-    background-position: center ;
-
-    border-radius: 3.6vh;
-    border-width: 0.3vh;
+      height: auto ;
+      aspect-ratio: 166 / 225 ;
+      background-size: cover ;
+      background-position: center ;
+      border-radius: 3.6vh;
+      border-width: 0.3vh;
   }
 
   .photo-wrapper {
@@ -866,7 +853,10 @@ height: auto ;
 /* МОБИЛЬНЫЕ УСТРОЙСТВА (до 767px) */
 @media (max-width: 767px) {
   
-  .container, #frame { width: 100vw !important; height: calc(var(--vh, 1vh) * 100) !important; }
+  /* ВАЖНО: Исключаем .is-mobile, чтобы скрипт мог управлять высотой */
+  body:not(.is-mobile) .container, 
+  body:not(.is-mobile) #frame { width: 100vw !important; height: calc(var(--vh, 1vh) * 100) !important; }
+  
   .screen {
     height: 100%;
     padding-top: env(safe-area-inset-top) !important;
@@ -960,7 +950,6 @@ height: auto ;
 
 /* Для очень низких экранов (< 500px) */
 @media (max-height: 500px) {
-
   
   .title-block h1 { font-size: clamp(36px, 8vw, 400px); padding-top: 150px; }
   .details-header { font-size: clamp(16px, 4vw, 72px); line-height: 1.2; }
@@ -999,16 +988,18 @@ height: auto ;
   }
 }
 
-/* Динамическая высота */
+/* Динамическая высота (исправлено для JS) */
 @media (max-width: 1080px) {
-  .container, #frame { height: calc(var(--vh, 1vh) * 100) !important; }
+  /* Применяем !important только если JS не сработал (не is-mobile) */
+  body:not(.is-mobile) .container, 
+  body:not(.is-mobile) #frame { height: calc(var(--vh, 1vh) * 100) !important; }
+  
   .video-background { min-height: calc(var(--vh, 1vh) * 100); }
   .temple-nav-arrows { height: calc(var(--vh, 1vh) * 100); }
   .dropdown-icon { width: 8vw; height: 8vw; }
   .dropdown-arrow { width: 6.5vw; height: 6.5vw; }
   .mode-details .video-background { background: white !important; transition: none !important; }
 }
-
 
 /* Корректировки для планшетов (768px-1080px) */
 @media (min-width: 768px) and (max-width: 1280px) {
@@ -1155,24 +1146,4 @@ padding-top: 2vh;
         margin-bottom: 80px;
     }
     
-}
-
- /* @media (max-width: 767px) and (max-height: 700px) {
-
-    .yandex-browser .mode-intro .title-block,
-    .yandex-browser .mode-intro #dropdownsContainer {
-        transform: calc(50vh - 60px + 40px) !important; 
-    }
-
-    .yandex-browser .mode-intro .hero-details {
-        transform: calc(55vh - 60px + 40px) !important; 
-    }
-    .yandex-browser .mode-intro .photo-wrapper { transform: translateY(40px) !important; }
-}*/
-
-@media (max-height: 500px) {
-    .yandex-browser .mode-intro .title-block { transform: calc(-25vh + 40px) !important; }
-    .yandex-browser .mode-intro .hero-details { transform: calc(-10vh + 40px) !important; }
-    .yandex-browser .mode-intro #dropdownsContainer { transform: calc(50vh + 40px) !important; }
-    .yandex-browser .mode-intro .photo-wrapper { transform: translateY(40px) !important; }
 }
