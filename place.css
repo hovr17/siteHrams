@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-/* Индикатор загрузки страницы */
+/* Индикатор загрузки траницы */
 .page-loading-overlay {
   position: fixed;
   top: 0;
@@ -1187,3 +1187,4 @@ padding-top: 2vh;
         padding-bottom: 0; /* Убираем safe-area, т.к. JS точно вычисляет видимую область */
     }
 }
+
