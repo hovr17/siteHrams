@@ -1176,3 +1176,11 @@ padding-top: 2vh;
     .yandex-browser .mode-intro #dropdownsContainer { transform: calc(50vh + 40px) !important; }
     .yandex-browser .mode-intro .photo-wrapper { transform: translateY(40px) !important; }
 }
+
+
+@media (max-width: 1080px) {
+  body.is-mobile #frame {
+    max-height: none !important;
+    min-height: auto !important;
+  }
+}
