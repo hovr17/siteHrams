@@ -1179,12 +1179,78 @@ padding-top: 2vh;
 
 
 
-@media (max-width: 1080px) and (orientation: portrait) {
-    
-    /* Все мобильные браузеры: высота = видимая область (JS управляет) */
-    body.is-mobile .container {
-        height: 100svh; /* Fallback до загрузки JS */
-        padding-bottom: 0; /* Убираем safe-area, т.к. JS точно вычисляет видимую область */
-    }
+/* ============================================
+   MOBILE VIEWPORT FIX - БЛОКИРУЕМ ПОЛОСЫ БРАУЗЕРА
+   ============================================ */
+
+/* Для iPhone с челкой и home indicator */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body.is-mobile #frame {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(var(--vh) * 100) !important;
+  }
+}
+
+/* Запрещаем body скроллиться (только внутренний контент) */
+body.is-mobile {
+  overflow: hidden;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  height: calc(var(--vh) * 100);
+}
+
+/* Гарантируем что frame не выходит за пределы */
+body.is-mobile #frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--vh) * 100);
+  max-height: calc(var(--vh) * 100);
+  overflow: hidden;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Видео и фон строго в видимой области */
+body.is-mobile .temple-video,
+body.is-mobile .video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(var(--vh) * 100) !important;
+  object-fit: cover;
+}
+
+/* Нижняя тень тоже в пределах экрана */
+body.is-mobile .bottom-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 150px;
+  z-index: 3;
+}
+
+/* Scroll zone занимает всю высоту но скроллится внутри */
+body.is-mobile .scroll-zone {
+  height: calc(var(--vh) * 100) !important;
+  max-height: calc(var(--vh) * 100) !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* На десктопе отключаем эти фиксы */
+@media (min-width: 1081px) {
+  body.is-mobile #frame {
+    height: 90vh !important;
+    max-height: 1100px !important;
+    aspect-ratio: 9/16 !important;
+    border-radius: 30px !important;
+  }
 }
 
