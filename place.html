@@ -1,91 +1,100 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Место - Покровский монастырь</title>
-    <link rel="stylesheet" href="place.css">
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Путеводитель по Суздалю</title>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="place.css">
+
+  <base target="_self">
 
     <script>
-        (function() {
-            const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
-                             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (!isMobile) return;
-            
-            document.body.classList.add('is-mobile');
-            
-            const videoContainer = document.querySelector('.video-container');
-            const vv = window.visualViewport;
-            
-            if (!vv || !videoContainer) return;
-            
-            function updateViewport() {
-                // Устанавливаем высоту видео точно по видимой области (без панелей браузера)
-                videoContainer.style.height = vv.height + 'px';
-                
-                // Сдвигаем контент ниже видимой зоны
-                const content = document.querySelector('.content');
-                if (content) {
-                    content.style.top = vv.height + 'px';
-                }
-            }
-            
-            vv.addEventListener('resize', updateViewport);
-            window.addEventListener('orientationchange', () => {
-                setTimeout(updateViewport, 100);
-            });
-            
-            updateViewport();
-            window.addEventListener('load', updateViewport);
-            
-            // Обработка свайпа для показа контента
-            let touchStartY = 0;
-            document.addEventListener('touchstart', (e) => {
-                touchStartY = e.touches[0].clientY;
-            }, {passive: true});
-            
-            document.addEventListener('touchmove', (e) => {
-                const touchY = e.touches[0].clientY;
-                const diff = touchStartY - touchY;
-                const content = document.querySelector('.content');
-                const scrollHint = document.querySelector('.scroll-hint');
-                
-                // Свайп вверх показывает контент
-                if (diff > 50 && window.scrollY < 10) {
-                    content.style.transform = 'translateY(-30vh)';
-                    if (scrollHint) scrollHint.style.opacity = '0';
-                }
-            }, {passive: true});
-        })();
-    </script>
+  window.addEventListener('DOMContentLoaded', function() {
+    (function() {
+        const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
+                         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isMobile) return;
+        
+        document.body.classList.add('is-mobile');
+        
+        const frame = document.getElementById('frame');
+        const vv = window.visualViewport;
+        
+        if (!vv || !frame) return;
+        
+        function updateViewport() {
+            frame.style.height = vv.height + 'px';
+            frame.style.maxHeight = 'none';
+        }
+        
+        vv.addEventListener('resize', updateViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateViewport, 100);
+        });
+        
+        updateViewport();
+    })();
+  });
+</script>
+</head>
+<body>
+  <!-- Стрелки навигации -->
+  <div class="temple-nav-arrows" id="templeNavArrows">
+    <button class="temple-nav-arrow temple-prev-arrow" id="templePrevArrow">
+      <div class="arrow-icon arrow-prev"></div>
+    </button>
+    <button class="temple-nav-arrow temple-next-arrow" id="templeNextArrow">
+      <div class="arrow-icon arrow-next"></div>
+    </button>
+  </div>
 
-    <!-- Видео занимает только видимую зону экрана -->
-    <div class="video-container">
-        <video autoplay muted loop playsinline poster="backgrounds/bg_second_screen.jpg">
-            <source src="video/monastery.mp4" type="video/mp4">
-        </video>
-        <!-- Затемнение снизу для читаемости текста -->
-        <div class="video-overlay"></div>
-    </div>
-
-    <!-- Кнопка назад -->
-    <a href="index.html" class="back-button">
-        <svg viewBox="0 0 60 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15 15H45M15 15L25 5M15 15L25 25" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+  <div class="container mode-intro" id="frame">
+    <a href="categories.html" class="back-button" id="backBtn">
+      <div class="back-icon"></div>
     </a>
 
-    <!-- Подсказка для пользователя -->
-    <div class="scroll-hint">↑ Листайте вверх ↑</div>
+    <div class="video-background" id="videoPoster"></div>
+    
+    <!-- ⚠️ ПУСТОЙ SRC, заполняется скриптом -->
+    <video class="temple-video" id="bgVideo" muted playsinline webkit-playsinline preload="auto" autoplay loop></video>
+    
+    <div class="overlay-gradient"></div>
 
-    <!-- Контент скрыт за пределами видимой области -->
-    <div class="content">
-        <h1>Покровский монастырь</h1>
-        <p>Описание места...</p>
+    <div class="screen">
+      <div class="scroll-zone" id="scrollZone">
+        <div class="top-spacer"></div>
+
+        <div class="title-block" id="titleBlock">
+          <h1></h1>
+          <div class="entry-note">
+            <span></span>
+            <div class="small-btn" id="paidBtn">
+              <div class="open-icon"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-details" id="heroDetails">
+          <div class="details-header">подробнее:</div>
+          <div class="photo-wrapper"></div>
+        </div>
+
+        <div id="dropdownsContainer"></div>
+      </div>
     </div>
 
+    <div class="bottom-shadow"></div>
+  </div>
+
+  <!-- ПОРЯДОК КРИТИЧЕН! -->
+  <script src="js/categories/religious_places.js"></script>
+  <script src="js/core/categories_config.js"></script>
+  <script src="js/core/pages_manager.js"></script>
+  <script src="js/core/spa_router.js"></script>
+  <script src="js/core/place_menu.js"></script>
+  
 </body>
 </html>
