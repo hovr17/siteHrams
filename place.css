@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-/* Индикатор загрузки траницы */
+/* Индикатор загрузки страницы */
 .page-loading-overlay {
   position: fixed;
   top: 0;
@@ -1001,7 +1001,7 @@ height: auto ;
 
 /* Динамическая высота */
 @media (max-width: 1080px) {
-  .container, #frame { height: calc(var(--vh, 1vh) * 100); }
+  .container, #frame { height: calc(var(--vh, 1vh) * 100) !important; }
   .video-background { min-height: calc(var(--vh, 1vh) * 100); }
   .temple-nav-arrows { height: calc(var(--vh, 1vh) * 100); }
   .dropdown-icon { width: 8vw; height: 8vw; }
@@ -1244,26 +1244,3 @@ body.is-mobile #frame {
     transform: translateY(calc(var(--vh) * 45)) !important;
   }
 }
-
-
-
-/* ============================================================================
-   АДАПТАЦИЯ ВЫСОТЫ КОНТЕЙНЕРА (JS visualViewport)
-   =========================================================================== */
-
-/* Для мобильных устройств в портретной ориентации */
-@media (max-width: 1080px) and (orientation: portrait) {
-    
-    /* Фолбэк, пока JS не загрузился */
-    body.is-mobile .container {
-        height: 100svh; 
-    }
-
-    /* Когда JS успешно сработал, он ставит инлайн-стиль высоты.
-       Мы убираем padding-bottom, чтобы он не добавлял лишние пиксели 
-       к вычисленной JS высоте (из-за box-sizing: border-box). */
-    body.is-mobile .container {
-        padding-bottom: 0;
-    }
-}
-
