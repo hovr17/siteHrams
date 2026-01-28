@@ -1179,3 +1179,16 @@ padding-top: 2vh;
 
 
 
+@media (max-width: 1080px) {
+  body.is-mobile #frame {
+    height: 100% !important; /* Позволяем JS управлять через inline style */
+    max-height: none !important;
+    min-height: auto !important;
+    aspect-ratio: auto !important; /* Сбрасываем aspect-ratio для мобильных */
+  }
+  
+  /* Для viewport-контейнера тоже обновляем */
+  body.is-mobile .container {
+    height: 100% !important;
+  }
+}
