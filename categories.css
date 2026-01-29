@@ -214,35 +214,3 @@
 }
 
 
-/* ==========================================
-   ОБНОВЛЕННЫЙ КОНТЕЙНЕР (categories.css)
-   ========================================== */
-.container {
-    background: url('backgrounds/bg_second_screen.jpg') center/cover no-repeat;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
-    
-    /* Используем fallback, JS перезапишет на точную высоту */
-    height: 100dvh;
-    height: 100vh; /* Fallback для старых браузеров */
-    
-    padding: 0;
-    padding-top: 5vh;
-    
-    /* Убираем safe-area, т.к. JS точно контролирует высоту visualViewport */
-    padding-bottom: 0;
-    
-    overflow: hidden;
-}
-
-/* Убираем контрастные настройки для мобильных */
-@media (max-width: 1080px) {
-    body.is-mobile .container {
-        height: 100svh; /* Fallback до загрузки JS */
-        padding-bottom: 0; /* JS управляет safe-area через --vv-height */
-    }
-}
-
