@@ -1,20 +1,30 @@
-/* Стили футера внутри контейнера */
+/* ИСПРАВЛЕННЫЙ ФУТЕР */
 .footer {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Высота равна высоте контейнера */
     background-color: #a4a4a4;
     z-index: 1000;
     transform: translateY(100%);
     transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Настройка Flexbox для центрирования по горизонтали */
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column; /* Меняем направление на колонку */
-    overflow-x: hidden; 
-    overflow-y: auto;
+    justify-content: center; 
+    
+    /* Гарантируем, что контент не вылезет за пределы */
+    overflow: hidden; 
+    
+    /* ✅ ИСПРАВЛЕНИЕ 1: Добавляем отступ снизу под панель браузера/домик */
+    padding-bottom: env(safe-area-inset-bottom);
+    box-sizing: border-box;
+    
+    /* Скрываем скроллбар */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .footer.active {
@@ -24,83 +34,76 @@
 .footer-content {
     width: 90%;
     max-width: 800px;
-    padding: clamp(10px, 3vh, 30px) clamp(10px, 3vw, 30px) clamp(20px, 6vh, 60px);
+    
+    /* ✅ ИСПРАВЛЕНИЕ 2: Используем flex-direction: column и space-between */
     display: flex;
     flex-direction: column;
-    min-height: 100%;
-    justify-content: center;
+    justify-content: space-between; /* Прижимает заголовок к верху, текст к низу */
+    
+    height: 100%; /* Растягиваем контент на всю доступную высоту футера */
+    
+    /* Внутренние отступы создают "воздух" сверху и снизу */
+    padding: clamp(20px, 5vh, 60px) 0; 
     box-sizing: border-box;
-     justify-content: space-between;
-     margin: 0 auto; /* Центрируем контент */
 }
 
+/* --- Шапка --- */
 .footer-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: clamp(15px, 3vh, 30px);
-    flex-shrink: 0;
-    height: auto;
+    flex-shrink: 0; /* Запрещаем сжимать саму кнопку "О проекте" */
     position: relative;
-    
+    /* Высота определяется контентом (кнопкой) */
 }
 
-.footer-link {
-    font-family: 'Crooker', sans-serif;
-    font-size: clamp(18px, 4vh, 28px);
-    color: #ffffff;
-    font-weight: 100;
-    line-height: 1.1;
-    letter-spacing: 0.05em;
-    text-decoration: none;
-    transition: opacity 0.3s;
-    align-self: flex-start;
-    margin-top: 0;
-    padding-top: clamp(10px, 3vh, 40px);
-    white-space: nowrap;
-}
-
-.footer-link:hover {
-    opacity: 0.7;
-}
-
+/* --- Логотип (декоративный) --- */
 .footer-logo {
     position: absolute;
-
+    /* ✅ ИСПРАВЛЕНИЕ 3: Центрируем логотип по вертикали правильным способом без 50vh */
+    top: 50%;
     transform: translateY(-50%);
     right: -15%;
-    width: clamp(150px, 50vh, 450px);
+    
+    width: clamp(150px, 45vh, 450px); /* Немного уменьшил max-width, чтобы не влезал в текст */
     height: auto;
     opacity: 0.2;
     pointer-events: none;
-    padding-top: 50vh;
+    /* Убираем padding-top: 50vh, так как positioning теперь абсолютный от центра */
 }
 
+/* --- Разделитель --- */
 .footer-separator {
     height: 1px;
     background-color: #ffffff;
     opacity: 0.2;
+    width: 100%;
     flex-shrink: 0;
-    margin-top: clamp(10px, 50vh, 700px);
-    margin-bottom: clamp(15px, 3vh, 30px);
+    
+    /* ✅ ИСПРАВЛЕНИЕ 4: Убираем огромный margin-top: 50vh. 
+       Благодаря space-between линия встанет примерно посередине между кнопкой и текстом,
+       автоматически адаптируясь под размер экрана. */
+    margin: clamp(20px, 4vh, 50px) 0; 
 }
 
+/* --- Текстовый блок --- */
 .footer-text-container {
     font-family: 'Crooker', sans-serif;
     font-weight: 100;
     text-align: center;
     opacity: 0.5;
-    margin-top: auto; /* Прижимаем к низу */
-    padding-bottom: clamp(20px, 5vh, 50px); /* Отступ от низа */
+    flex-shrink: 0; /* Не даем тексту сжиматься до нечитаемого состояния */
+    
+    /* Отступы внутри текстового блока */
+    padding-bottom: clamp(10px, 2vh, 30px);
 }
 
-
+/* Стили текста оставляем те же (они clamp и так адаптивные по размеру шрифта) */
 .footer-disclaimer {
     font-size: clamp(12px, 1.2vh, 20px);
     line-height: 1.4;
-    margin-bottom: clamp(20px, 4vh, 40px);
+    margin-bottom: clamp(15px, 2vh, 30px);
     color: white;
-    font-weight: 100;
     letter-spacing: 0.02em;
 }
 
@@ -109,74 +112,35 @@
     line-height: 1.4;
     margin-bottom: clamp(5px, 1vh, 10px);
     color: white;
-    font-weight: 100;
     letter-spacing: 0.02em;
 }
 
 .footer-copyright {
     font-size: clamp(12px, 1.2vh, 20px);
     color: white;
-    font-weight: 100;
     letter-spacing: 0.02em;
 }
 
-
-
-/* Для обратной связи при свайпе на мобильных */
-@media (max-width: 1080px) {
-    .footer {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: pan-y;
-    }
-    
-    .footer-logo {
-        width: clamp(120px, 35vh, 250px);
-    }
-}
-
-/* Предотвращаем выделение текста при свайпе */
-.footer-content {
-    user-select: none;
-}
-
-.footer-link {
-    user-select: auto;
-}
-
-/* Для очень маленьких экранов */
+/* Медиа-запросы для кнопки "О проекте" и адаптации логотипа на маленьких экранах */
 @media (max-width: 650px) {
     .footer-link {
-        font-size: clamp(10px, 2vh, 30px);
-        padding-top: clamp(5px, 2vh, 20px);
+        font-size: clamp(10px, 2.5vh, 30px);
+        padding-top: 0; /* Убираем лишние паддинги, чтобы контролировать отступы через flex */
     }
     
     .footer-logo {
-        right: -15%;
-        width: clamp(100px, 30vh, 400px);
-    }
-    
-    .footer-disclaimer,
-    .footer-copy-info,
-    .footer-copyright {
-        font-size: clamp(10px, 1.5vh, 16px);
+        right: -10%;
+        width: clamp(100px, 35vh, 250px);
     }
 }
 
 @media (min-width: 651px) {
     .footer-link {
-        font-size: clamp(10px, 2vh, 30px);
-        padding-top: clamp(5px, 2vh, 20px);
+        padding-top: clamp(10px, 2vh, 20px);
     }
     
     .footer-logo {
         right: -10%;
-        width: clamp(100px, 30vh, 400px);
-    }
-    
-    .footer-disclaimer,
-    .footer-copy-info,
-    .footer-copyright {
-        font-size: clamp(10px, 1.5vh, 16px);
     }
 }
 
@@ -197,5 +161,6 @@
         width: clamp(100px, 27vh, 400px);
     }
 }
+
 
 
