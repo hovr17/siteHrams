@@ -10,33 +10,37 @@
 </head>
 <body>
     <script>
-        (function() {
-            const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
-                             /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (!isMobile) return;
-            
-            document.body.classList.add('is-mobile');
-            
-            const container = document.querySelector('.container');
-            const vv = window.visualViewport;
-            
-            if (!vv || !container) return;
-            
-            function updateViewport() {
-                // Обрезаем контейнер ровно по границе видимой области (без панелей инструментов)
-                container.style.height = vv.height + 'px';
-            }
-            
-            vv.addEventListener('resize', updateViewport);
-            window.addEventListener('orientationchange', () => {
-                setTimeout(updateViewport, 100);
-            });
-            
-            updateViewport();
-            window.addEventListener('load', updateViewport);
-        })();
-    </script>
+    (function() {
+        const isMobile = window.matchMedia('(max-width: 1080px)').matches || 
+                         /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (!isMobile) return;
+        
+        document.body.classList.add('is-mobile');
+        
+        const container = document.querySelector('.container');
+        const vv = window.visualViewport;
+        
+        if (!vv || !container) return;
+        
+        function updateViewport() {
+            const vh = vv.height + 'px';
+            // Устанавливаем высоту контейнера
+            container.style.height = vh;
+            // Устанавливаем CSS-переменную для футера и других элементов
+            document.documentElement.style.setProperty('--vv-height', vh);
+            document.documentElement.style.setProperty('--vv-top', vv.offsetTop + 'px');
+        }
+        
+        vv.addEventListener('resize', updateViewport);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateViewport, 100);
+        });
+        
+        updateViewport();
+        window.addEventListener('load', updateViewport);
+    })();
+</script>
 
     <div class="container">
         <!-- Кнопка назад -->
@@ -84,5 +88,6 @@
     <script src="script.js"></script>
 </body>
 </html>
+
 
 
