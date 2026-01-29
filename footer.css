@@ -31,8 +31,8 @@
     display: flex;
     flex-direction: column;
     
-    /* ✅ ИСПРАВЛЕНИЕ 2: Flex-распределение: Кнопка сверху, Текст снизу */
-    justify-content: space-between;
+    /* ИЗМЕНЕНИЕ: Убираем space-between, теперь элементы идут друг за другом */
+    justify-content: flex-start; 
     
     height: 100%;
     box-sizing: border-box;
@@ -74,7 +74,7 @@
 .footer-logo {
     position: absolute;
     transform: translateY(-50%);
-    right: -15%;
+    right: 40%;
     
     /* Вместо 50vh используем clamp, чтобы лого сжималось, когда экран становится маленьким */
     /* clamp(минимум, идеал, максимум). Идеал 35vh вместо 50vh, чтобы оставить место тексту снизу */
@@ -94,11 +94,11 @@
     opacity: 0.2;
     flex-shrink: 0;
     
-    /* Вместо 50vh используем clamp. 
-       На большом экране линия уйдет вниз (40vh), 
-       на маленьком поднимется выше (20vh), освобождая место для текста */
-    margin-top: clamp(10px, 30vh, 700px); 
-    margin-bottom: clamp(15px, 3vh, 30px);
+    /* ИЗМЕНЕНИЕ 1: Убираем margin-top от верха (было clamp(10px, 30vh, 700px)) */
+    margin-top: auto; /* <--- Это прижимает линию (и текст под ней) к низу экрана */
+    
+    /* ИЗМЕНЕНИЕ 2: Фиксированное расстояние до текста под линией */
+    margin-bottom: 3vh; /* <--- ВОТ ЗДЕСЬ регулируем расстояние до текста */
 }
 
 /* --- СТИЛИ НИЖНЕГО ТЕКСТА (ВСЕГДА ВИДЕН) --- */
@@ -108,9 +108,12 @@
     font-weight: 100;
     text-align: center;
     opacity: 0.5;
-    margin-top: auto; /* Прижимает к низу внутри flex-контейнера */
-    padding-bottom: clamp(20px, 5vh, 50px); /* Дополнительный отступ от низа */
-    flex-shrink: 0; /* Запрещает тексту сжиматься до нечитаемого состояния */
+    
+    /* ИЗМЕНЕНИЕ: Убираем margin-top: auto, так как теперь позицию задает линия */
+    margin-top: 0; 
+    
+    padding-bottom: clamp(20px, 5vh, 50px); 
+    flex-shrink: 0;
 }
 
 
@@ -211,4 +214,5 @@
         right: -12%;
     }
 }
+
 
