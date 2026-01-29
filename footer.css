@@ -1,4 +1,4 @@
-/* ИСПРАВЛЕННЫЙ ФУТЕР (ВЕРНУЛИ СТАРЫЕ СТИЛИ ДЛЯ ВЕРХНЕЙ ЧАСТИ) */
+/* ИСПРАВЛЕННЫЙ ФУТЕР */
 .footer {
     position: absolute;
     bottom: 0;
@@ -13,10 +13,9 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    overflow-x: hidden; 
-    overflow: hidden; /* Отключаем прокрутку */
+    overflow: hidden; /* Убираем прокрутку */
     
-    /* ✅ ИСПРАВЛЕНИЕ: Добавляем отступ снизу для зоны видимости */
+    /* ✅ ИСПРАВЛЕНИЕ 1: Отступ снизу для зоны видимости (Home Indicator / Browser Bar) */
     padding-bottom: env(safe-area-inset-bottom);
     box-sizing: border-box;
 }
@@ -32,16 +31,15 @@
     display: flex;
     flex-direction: column;
     
-    /* ✅ ЛОГИКА РАСПРЕДЕЛЕНИЯ: Прижимает верх к верху, низ к низу */
+    /* ✅ ИСПРАВЛЕНИЕ 2: Flex-распределение: Кнопка сверху, Текст снизу */
     justify-content: space-between;
     
-    height: 100%; /* Растягиваем на весь экран */
+    height: 100%;
     box-sizing: border-box;
-    justify-content: space-between;
     margin: 0 auto;
 }
 
-/* --- ВОЗВРАЩАЕМ ИСХОДНЫЕ СТИЛИ --- */
+/* --- СТИЛИ ВЕРХНЕЙ ЧАСТИ (СОХРАНЕНЫ, НО АДАПТИРОВАНЫ) --- */
 
 .footer-header {
     display: flex;
@@ -51,7 +49,6 @@
     flex-shrink: 0;
     height: auto;
     position: relative;
-    
 }
 
 .footer-link {
@@ -65,7 +62,7 @@
     transition: opacity 0.3s;
     align-self: flex-start;
     margin-top: 0;
-    padding-top: clamp(10px, 3vh, 40px); /* Исходный стиль */
+    padding-top: clamp(10px, 3vh, 40px);
     white-space: nowrap;
 }
 
@@ -73,37 +70,47 @@
     opacity: 0.7;
 }
 
+/* ✅ ИСПРАВЛЕНИЕ 3: ЛОГО уменьшается при сужении экрана */
 .footer-logo {
     position: absolute;
-
     transform: translateY(-50%);
     right: -15%;
-    width: clamp(150px, 50vh, 450px); /* Исходный стиль */
+    
+    /* Вместо 50vh используем clamp, чтобы лого сжималось, когда экран становится маленьким */
+    /* clamp(минимум, идеал, максимум). Идеал 35vh вместо 50vh, чтобы оставить место тексту снизу */
+    width: clamp(150px, 35vh, 450px); 
     height: auto;
     opacity: 0.2;
     pointer-events: none;
-    padding-top: 50vh; /* Исходный стиль (огромный отступ) */
+    
+    /* padding-top убираем, так как размер задан width clamp */
+    padding-top: 0; 
 }
 
+/* ✅ ИСПРАВЛЕНИЕ 4: ЛИНИЯ отодвигается от верха гибко */
 .footer-separator {
     height: 1px;
     background-color: #ffffff;
     opacity: 0.2;
     flex-shrink: 0;
-    margin-top: clamp(10px, 50vh, 700px); /* Исходный стиль (огромный отступ) */
+    
+    /* Вместо 50vh используем clamp. 
+       На большом экране линия уйдет вниз (40vh), 
+       на маленьком поднимется выше (20vh), освобождая место для текста */
+    margin-top: clamp(10px, 30vh, 700px); 
     margin-bottom: clamp(15px, 3vh, 30px);
 }
 
-/* --- СТИЛИ ДЛЯ НИЖНЕГО ТЕКСТА (НОВЫЕ ИСПРАВЛЕНИЯ) --- */
+/* --- СТИЛИ НИЖНЕГО ТЕКСТА (ВСЕГДА ВИДЕН) --- */
 
 .footer-text-container {
     font-family: 'Crooker', sans-serif;
     font-weight: 100;
     text-align: center;
     opacity: 0.5;
-    margin-top: auto; /* Прижимает к низу внутри колонки */
-    padding-bottom: clamp(20px, 5vh, 50px); /* Отступ от низа */
-    flex-shrink: 0; /* Запрещает сжимать текст */
+    margin-top: auto; /* Прижимает к низу внутри flex-контейнера */
+    padding-bottom: clamp(20px, 5vh, 50px); /* Дополнительный отступ от низа */
+    flex-shrink: 0; /* Запрещает тексту сжиматься до нечитаемого состояния */
 }
 
 
@@ -132,8 +139,7 @@
     letter-spacing: 0.02em;
 }
 
-
-/* --- АДАПТИВЫ (ИСХОДНЫЕ) --- */
+/* --- МЕДИА-ЗАПРОСЫ (СОХРАНЕНЫ) --- */
 
 @media (max-width: 1080px) {
     .footer {
@@ -142,7 +148,8 @@
     }
     
     .footer-logo {
-        width: clamp(120px, 35vh, 250px);
+        /* На мобильных делаем лого еще меньше, чтобы гарантированно влезало */
+        width: clamp(120px, 25vh, 250px); 
     }
 }
 
@@ -162,7 +169,7 @@
     
     .footer-logo {
         right: -15%;
-        width: clamp(100px, 30vh, 400px);
+        /* Размер лого адаптивно подстраивается */
     }
     
     .footer-disclaimer,
@@ -180,7 +187,7 @@
     
     .footer-logo {
         right: -10%;
-        width: clamp(100px, 30vh, 400px);
+        /* Размер лого адаптивно подстраивается */
     }
     
     .footer-disclaimer,
@@ -201,8 +208,6 @@
     }
     
     .footer-logo {
-        
         right: -12%;
-        width: clamp(100px, 27vh, 400px);
     }
 }
